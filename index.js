@@ -14,7 +14,7 @@ let content = [
 ];
 
 io.on("connection", (socket) => {
-  console.log("User Connected");
+  console.log(`User Connected, ${socket.id}`);
   io.emit("initial", content);
   socket.on("text", (data, id) => {
     content = data;
