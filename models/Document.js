@@ -11,6 +11,9 @@ const documentSchema = new mongoose.Schema({
   shared: {
     type: Array,
   },
+  lastSaved: {
+    type: Date,
+  },
 });
 
 const Document = mongoose.model("Document", documentSchema);
