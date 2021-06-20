@@ -1,44 +1,54 @@
-// const app = require("express")();
-// const http = require("http").Server(app);
-// const io = require("socket.io")(http);
-// const PORT = process.env.PORT || 4000;
-
-// const router = require("./router");
-// app.use(router);
-
-// let content = [
-//   {
-//     type: "paragraph",
-//     children: [{ text: "A line of text in a paragraph." }],
-//   },
-// ];
-
-// io.on("connection", (socket) => {
-//   console.log(`User Connected, ${socket.id}`);
-//   io.emit("initial", content);
-//   socket.on("text", (data, id) => {
-//     content = data;
-//     io.emit("sendText", { data: content, id: id });
-//   });
-// });
-
-// http.listen(4000, () => {
-//   console.log(`listening on ${PORT}`);
-// });
-
 const express = require("express");
 const cors = require("cors");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 const app = express();
-const PORT = process.env.PORT || 4000;
-// const io = require("socket.io")(PORT);
-const io = require("socket.io")(PORT, {
+const PORT = process.env.PORT || 4050;
+const SOCKET_PORT = 4000;
+
+const io = require("socket.io")(SOCKET_PORT, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
 
-// app.use(cors());
+//IMPORT ROUTES
+
+const authRoute = require("./routes/auth/auth");
+// const adminRoute = require("./routes/admin/admin");
+// const commonRoute = require("./routes/common/user");
+
+dotenv.config();
+
+//CONNECTION TO DATABASE
+
+mongoose.connect(
+  process.env.DB_CONNECT,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: true,
+    useCreateIndex: true,
+  },
+  () => console.log("connected to db")
+);
+
+//MIDDLEWARE
+
+app.use(express.json(), cors());
+
+//ROUTE MIDDLEWARE
+
+app.use("/api/auth", authRoute);
+// app.use("/api/admin", adminRoute);
+// app.use("/api/common", commonRoute);
+
+app.get("/", (req, res) => {
+  res.send(`<p>Hey! It's working</p>`);
+});
+
+app.listen(PORT, () => console.log(`server up and running at  ${PORT}`));
 
 io.on("connection", (socket) => {
   // console.log(socket);

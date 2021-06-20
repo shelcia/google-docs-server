@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     min: 6,
     max: 1024,
   },
-  document: {
+  documents: {
     type: Array,
     required: true,
     min: 2,

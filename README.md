@@ -1,3 +1,3 @@
-# Google Docs Server
+# Kaagitham Backend
 
-Backend Code for Google Docs clone created using SlateJs and React
+Backend Code for Kaagitham created using Quill and React
