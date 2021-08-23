@@ -6,7 +6,7 @@ const PORT = 4000 || process.env.PORT;
 
 const io = require("socket.io")(PORT, {
   cors: {
-    origin: "http://localhost:3001",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
@@ -34,7 +34,7 @@ mongoose.connect(
 
 io.on("connection", (socket) => {
   socket.on("send-changes", (delta) => {
-    console.log(delta);
+    // console.log(delta);
     socket.broadcast.emit("receive-changes", delta);
   });
 });
