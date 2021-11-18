@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 
 const documentSchema = new mongoose.Schema({
-  content: {
+  data: {
     type: Object,
   },
   owner: {
     type: Array,
-    required: true,
   },
   shared: {
     type: Array,
